@@ -1,0 +1,73 @@
+﻿<Window x:Class="PokeWpfWithAPI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PokeWpfWithAPI"
+        mc:Ignorable="d"
+        Title="Pokémon Suche" Height="400" Width="600">
+    <Window.DataContext>
+        <local:ViewModel x:Name="mv"/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF00FF75"/>
+                <GradientStop Color="#FFD700FF" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10" Grid.Row="0">
+            <Grid>
+                <TextBox x:Name="SearchBox" Width="300" FontSize="14" Text="{Binding SurchInput, UpdateSourceTrigger=PropertyChanged}">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Return" Command="{Binding SuchCommand}"/>
+                    </TextBox.InputBindings>
+                </TextBox>
+            </Grid>
+
+            <Button Content="Suchen" Width="50" Margin="10,0,0,0" Command="{Binding SuchCommand}"/>
+            <Button Content="Cancel" Width="50" Margin="10,0,0,0" Command="{Binding CancelCommand}"/>
+        </StackPanel>
+
+        <ListBox x:Name="PokemonList" VerticalAlignment="Center"
+                 ItemsSource="{Binding PokeList}" Background="{x:Null}" Grid.Row="1" Margin="120,25">
+            <ListBox.BorderBrush>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFFCFF00"/>
+                    <GradientStop Color="#FFFF009D" Offset="1"/>
+                    <GradientStop Color="#FFFE04D4" Offset="0.981"/>
+                </LinearGradientBrush>
+            </ListBox.BorderBrush>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel>
+                        <Image Source="{Binding ImgPath}" Width="100" Height="100"/>
+                        
+                        <StackPanel Grid.Column="0">
+
+                            <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="16"/>
+
+                            <StackPanel Orientation="Vertical">
+                               
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="PokeIndex:"/>
+                                    <TextBlock Text="{Binding Id}" VerticalAlignment="Center"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="Type:"/>
+                                    <TextBlock Text="{Binding Type}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                
+                            </StackPanel>
+                        </StackPanel>
+                    </DockPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</Window>
